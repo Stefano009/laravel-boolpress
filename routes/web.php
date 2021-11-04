@@ -23,7 +23,10 @@ Auth::routes();// routes that control all my authentication mechanism
 
 //grouped routes: middleware block everything before starting if not true, so have to stay before everything else, the prefix goes in the url so / -> /admin , namespace says laravel that we are looking into the admin folder
 // in the end name is used to avoid writing everytime admmin in the route
-Route::middleware('auth')->prefix('admin')->namespace('Admin')->name('admin')
-        ->group(function(){
-            Route::get('/', 'HomeController@index')->name('index');
-        });
+Route::middleware('auth')->namespace('Admin')->prefix('admin')->name('admin.')
+->group(function(){
+    Route::get('/', 'AdminController@index')->name('index');
+
+    Route::resource('/posts', 'PostController');
+});
+
