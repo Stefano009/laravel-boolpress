@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -27,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -38,7 +40,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $request->validate([
+            'title'=>'required|unique:posts|max:50',
+            'content'=>'required|min:20'
+        ]);
+        $new_post = new Post();
+        $new_post->fill($data);
+        $new_post->slug = Str::slug($data['title']);
+        // slug method working, add a control because it need to be unique
+        $new_post->save();
+        
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -59,24 +72,37 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Post post
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        if($post){
+            return view('admin.posts.edit', compact('post'));
+        }abort(404);
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Post post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->all();
+        $request->validate([
+            'title'=>'required|unique:posts|max:50',
+            'content'=>'required|min:20'
+        ]);
+        $post->update($data);
+        // $new_post->slug = Str::slug($data['title']);
+        // slug method working, add a control because it need to be unique
+        
+        return redirect()->route('admin.posts.index');
     }
 
     /**
