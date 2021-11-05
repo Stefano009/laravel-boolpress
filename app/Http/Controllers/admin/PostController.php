@@ -88,14 +88,14 @@ class PostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Post post
+     * @param  Post $post
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
     {
         $data = $request->all();
         $request->validate([
-            'title'=>'required|unique:posts|max:50',
+            'title'=>'required|max:50',
             'content'=>'required|min:20'
         ]);
         $post->update($data);
@@ -108,11 +108,12 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Post $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('admin.posts.index');
     }
 }
