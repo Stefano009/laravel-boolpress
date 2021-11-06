@@ -15,6 +15,7 @@ use \Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', 'HomeController@index')->name('index');// what i see as a guest
+Route::resource('/posts', 'PostController');
 
 Auth::routes();// routes that control all my authentication mechanism
 

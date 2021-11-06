@@ -29,7 +29,7 @@ class PostController extends Controller
         //
     }
 
-    /**
+    /** 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -52,7 +52,7 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->first();
         if(!$post){
             abort(404);
-        }return view('admin.posts.show', compact('post'));
+        }return view('guest.posts.show', compact('post'));
     }
 
     /**

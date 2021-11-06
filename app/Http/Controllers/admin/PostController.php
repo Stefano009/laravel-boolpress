@@ -93,16 +93,36 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $data = $request->all();
+        $form_data = $request->all();
         $request->validate([
             'title'=>'required|max:50',
             'content'=>'required|min:20'
         ]);
-        $post->update($data);
+
+        if ($form_data['title'] != $post->title){
+
+            $slug = Str::slug($form_data['title']);
+            $starting_slug = $slug;
+            $is_slug_there = Post::where('slug', $slug)->first();
+            // query i'm using to check if in database my slug is already there
+            $counter = 1;
+            // initializing my counter to 1 so i can use it to create different slugs with the same root
+            while($is_slug_there) {
+                $slug = $starting_slug . '-' . $counter;
+                $is_slug_there = Post::where('slug', $slug)->first();
+                //i'll check everytime if my slug is already there so my while will cycle till the slug is unique
+                $counter++;
+            }
+
+            $form_data->slug = $slug;
+
+        }
+
+        $post->update($form_data);
         // $new_post->slug = Str::slug($data['title']);
         // slug method working, add a control because it need to be unique
         
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index')->with('status', 'Post correttamente aggiornato');
     }
 
     /**

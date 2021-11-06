@@ -37268,7 +37268,25 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // window.confirmDelete = function(){
+//     const resp = confirm('vuoi davvero cancellare il post selezionato?');
+//     if(!resp){
+//         event.preventDefault();
+//     }
+// }
+// best practice to create a confirm for your delete button in js
+
+
+var deleteForm = document.querySelectorAll('.delete-post');
+deleteForm.forEach(function (item) {
+  item.addEventListener('submit', function (e) {
+    var resp = confirm('vuoi davvero cancellare il post selezionato?');
+
+    if (!resp) {
+      e.preventDefault(); //e is the event pointed by the eventlistenere, with the preventDefault we stop the delete
+    }
+  });
+});
 
 /***/ }),
 
