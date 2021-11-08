@@ -16,7 +16,14 @@
                 <td scope="row">{{ $post['id'] }}</td>
                 <td class="px-5">{{ $post['title'] }}</td>
                 <td class="px-5">{{ $post['slug'] }}</td>
-                <td class="px-5">{{ $post->category->name }}</td>
+                   
+                <td class="px-5">
+                    @if ($post->category) 
+                    {{ $post->category->name }}
+                    @endif
+                    {{-- control to check if my i have a null category --}}
+                </td>
+                
                 {{-- to use the function category i need to see it as a variable of my posts and then call the variables of my categories, i could have called the id or the slug --}}
                 <td>
                     <a href="{{ route('admin.posts.show', $post['slug']) }}"
