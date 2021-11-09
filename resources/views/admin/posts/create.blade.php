@@ -34,7 +34,32 @@
            </select>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
+           <p>select the tag</p> 
+           @foreach ($tags as $tag)
+           <div class="form-check form-check-inline">
+            <input 
+            {{ in_array($tag->id, old('tags', [])) ? 'checked' : null }}
+            value="{{ $tag->id }}" type="checkbox" id="{{ 'tag' . $tag->id }}" name="tags[]" class="form-check-input">
+            {{-- name='tags[]' setted as array let me harvest all the checked boxes  --}}
+            <label class="form-check-label" for="{{ 'tag' . $tag->id }}"> {{ $tag->name }} </label>
+        </div>   
+        @endforeach
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
 @endsection
+
+{{-- @if ($errors->any())
+            <input
+            {{-- in caso di errore devo per forza usare l'if e fare due bottoni diversi, poi uso l'old e passo tags come array--}}
+            {{-- {{ in_array($tag->id, old('tags', [])) ? 'checked' : null }}
+            value="{{ $tag->id }}" type="checkbox" id="{{ 'tag' . $tag->id }}" name="tags[]" class="form-check-input">
+            {{-- name='tags[]' setted as array let me harvest all the checked boxes  --}}
+            {{-- <label class="form-check-label" for="{{ 'tag' . $tag->id }}"> {{ $tag->name }} </label>
+            @else
+            <input value="{{ $tag->id }}" type="checkbox" id="{{ 'tag' . $tag->id }}" name="tags[]" class="form-check-input">
+            {{-- name='tags[]' setted as array let me harvest all the checked boxes  --}}
+            {{-- <label class="form-check-label" for="{{ 'tag' . $tag->id }}"> {{ $tag->name }} </label>
+            @endif  --}}

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use App\Tag;
 use Illuminate\Support\Str;
 
 
@@ -31,7 +32,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -46,13 +48,19 @@ class PostController extends Controller
         $request->validate([
             'title'=>'required|unique:posts|max:50',
             'content'=>'required|min:20',
-            'category'=>'nullable|exists:categories,id'
+            'category'=>'nullable|exists:categories,id',
+            'tags'=>'exists:tags,id'
+            //exists in the tags table column id
         ]);
         $new_post = new Post();
         $new_post->fill($data);
         $new_post->slug = Str::slug($data['title']);
         // slug method working, add a control because it need to be unique
+        
         $new_post->save();
+        
+        // now i'm going to link tags id to the id of this post using the attach after the save so i have the id
+        $new_post->tags()->attach($data['tags']);        
         
         return redirect()->route('admin.posts.index');
     }
@@ -86,8 +94,9 @@ class PostController extends Controller
         }
 
         $categories = Category::all();
+        $tags = Tag::all();
         
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -102,7 +111,9 @@ class PostController extends Controller
         $form_data = $request->all();
         $request->validate([
             'title'=>'required|max:50',
-            'content'=>'required|min:20'
+            'content'=>'required|min:20',
+            'category_id'=> 'nullable|exists:categories,id',
+            'tags'=> 'exists:tags,id'
         ]);
 
         if ($form_data['title'] != $post->title){
@@ -123,8 +134,15 @@ class PostController extends Controller
             $form_data->slug = $slug;
 
         }
-
         $post->update($form_data);
+        // nell'update si usa la funzione sync che si occupa di sincronizzare i tag cancellando e contemporaneamente scrivendo il nuovo data 
+        if(array_key_exists('tags', $form_data)){
+            $post->tags()->sync($form_data['tags']);
+        } else {
+            $post->tags()->sync([]);
+            //if it is empty i need to clear it all
+        }
+
         // $new_post->slug = Str::slug($data['title']);
         // slug method working, add a control because it need to be unique
         
@@ -139,6 +157,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // so if i delete a post it will destroy the tags in the table tags posts using the id of the post it is refered to
+        $post->tags()->detach($post->id);
         $post->delete();
         return redirect()->route('admin.posts.index');
     }

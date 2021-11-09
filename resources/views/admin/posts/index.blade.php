@@ -8,6 +8,8 @@
                 <th class="px-5" scope="col">Title</th>
                 <th class="px-5" scope="col">Slug</th>
                 <th class="px-5" scope="col">Category</th>
+                {{-- <th class="px-5" scope="col">Tags number</th> --}}
+                <th class="px-5" scope="col">Tags</th>
                 <th class="px-5" scope="col">Actions</th>
             </tr>
         </thead>
@@ -24,6 +26,26 @@
                         <small> NO CATEGORY ASSOCIATED</small>
                     @endif
                     {{-- control to check if my i have a null category --}}
+                </td>
+                {{-- <td class="px-5">
+                    @if (count($post->tags) > 0) 
+                        <small>{{ count($post->tags) }}</small>
+                    @else
+                        <small> NO TAGS ASSOCIATED</small>
+                    @endif
+                </td> --}}
+                <td class="px-5">
+                    @if (count($post->tags) > 0) 
+                        @foreach ($post->tags as $tag)
+                            @if($loop->last)
+                            <small>{{ $tag->name}}</small>
+                            @else
+                            <small>{{ $tag->name . ',' }}</small>
+                            @endif
+                        @endforeach
+                    @else
+                        <small> NO TAGS ASSOCIATED</small>
+                    @endif
                 </td>
                 
                 {{-- to use the function category i need to see it as a variable of my posts and then call the variables of my categories, i could have called the id or the slug --}}
