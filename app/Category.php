@@ -13,3 +13,4 @@ class Category extends Model
         //this means that category has a master position in relation with posts and it mean that 1 category may have many posts
     }
 }
+// in the model i return the relations between tables hasMany is an 1 to n relation

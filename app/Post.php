@@ -13,3 +13,4 @@ class Post extends Model
         //belongsTo  means that this is subordinate, and have a relation of 1 to many (many post 1 category)
     }
 }
+// here i am stating that my model has a n to 1 relation subordinate to category in fact it belongs to it!

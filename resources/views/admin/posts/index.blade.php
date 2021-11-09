@@ -19,7 +19,9 @@
                    
                 <td class="px-5">
                     @if ($post->category) 
-                    {{ $post->category->name }}
+                        <small>{{ $post->category->name }}</small>
+                    @else
+                        <small> NO CATEGORY ASSOCIATED</small>
                     @endif
                     {{-- control to check if my i have a null category --}}
                 </td>
