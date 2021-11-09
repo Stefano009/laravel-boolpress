@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Category;
+use App\Tag;
+use App\Post;
 
 class TagController extends Controller
 {
@@ -14,7 +17,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::all();
+        return view('admin.tags.index', compact('tags'));
     }
 
     /**
@@ -41,12 +45,16 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tag $tag)
     {
-        //
+        if(!$tag) {
+            abort(404);
+        }
+        $posts = Post::all();
+        return view('admin.tags.show', compact('tag', 'posts'));
     }
 
     /**

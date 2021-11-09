@@ -10,21 +10,21 @@
                 <th class="px-5" scope="col">Actions</th>
             </tr>
         </thead>
-        @foreach ($categories as $category)
+        @foreach ($tags as $tag)
             <tr>
-                <td scope="row">{{ $category['id'] }}</td>
-                <td class="px-5">{{ $category['name'] }}</td>
-                <td class="px-5">{{ $category['slug'] }}</td>                
+                <td scope="row">{{ $tag['id'] }}</td>
+                <td class="px-5">{{ $tag['name'] }}</td>
+                <td class="px-5">{{ $tag['slug'] }}</td>                
                 <td class="">
-                    <a  href="{{ route('admin.categories.show', $category['id']) }}"
+                    <a  href="{{ route('admin.tags.show', $tag['id']) }}"
                         class="btn btn-info mx-1">
                         Details
                     </a>
-                    {{-- <a  href="{{ route('admin.categories.edit', $category['id']) }}"
+                    {{-- <a  href="{{ route('admin.categories.edit', $tag['id']) }}"
                         class="btn btn-warning mx-1">
                         Modify
                     </a>
-                    <form class=" mx-1 d-inline-block delete-category" action="{{route('admin.categories.destroy', $category['id'])}}" method="category">
+                    <form class=" mx-1 d-inline-block delete-tag" action="{{route('admin.categories.destroy', $tag['id'])}}" method="tag">
                         @csrf
                         @method('DELETE')
                         <button  type="submit" class="btn btn-danger">Delete</button>
