@@ -12,7 +12,7 @@
         </thead>
         @foreach ($tags as $tag)
             <tr>
-                <td scope="row">{{ $tag['id'] }}</td>
+                <td class="px-5 text-success" scope="row">{{ $tag['id'] }}</td>
                 <td class="px-5">{{ $tag['name'] }}</td>
                 <td class="px-5">{{ $tag['slug'] }}</td>                
                 <td class="">

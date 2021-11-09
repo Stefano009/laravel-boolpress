@@ -12,7 +12,7 @@
         </thead>
         @foreach ($categories as $category)
             <tr>
-                <td scope="row">{{ $category['id'] }}</td>
+                <td class="px-5 text-success" scope="row">{{ $category['id'] }}</td>
                 <td class="px-5">{{ $category['name'] }}</td>
                 <td class="px-5">{{ $category['slug'] }}</td>                
                 <td class="">

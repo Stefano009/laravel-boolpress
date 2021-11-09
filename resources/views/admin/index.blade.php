@@ -19,5 +19,21 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center my-5">
+        <div class="col-6 d-flex justify-content-around">
+            <a  href="{{ route('admin.posts.index')}} "
+                class="btn btn-success mx-1">
+                Posts
+            </a>
+            <a  href="{{ route('admin.categories.index') }}"
+                class="btn btn-info mx-1">
+                Categories
+            </a>
+            <a  href="{{ route('admin.tags.index') }}"
+                class="btn btn-danger mx-1">
+                Tags
+            </a>
+        </div>
+    </div>
 </div>
 @endsection

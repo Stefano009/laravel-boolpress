@@ -37278,7 +37278,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // window
 
 
 var deleteForm = document.querySelectorAll('.delete-post');
-deleteForm.forEach(function (item) {
+deleteForm.foreach(function (item) {
   item.addEventListener('submit', function (e) {
     var resp = confirm('vuoi davvero cancellare il post selezionato?');
 

@@ -15,7 +15,7 @@
         </thead>
         @foreach ($posts as $post)
             <tr>
-                <td scope="row">{{ $post['id'] }}</td>
+                <td class="px-5 text-success" scope="row">{{ $post['id'] }}</td>
                 <td class="px-5">{{ $post['title'] }}</td>
                 <td class="px-5">{{ $post['slug'] }}</td>
                    
