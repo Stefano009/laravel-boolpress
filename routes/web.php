@@ -15,7 +15,12 @@ use \Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', 'HomeController@index')->name('index');// what i see as a guest
+
+//rotta per la pagina profilo
+
+// rotta non protetta app_id
 Route::resource('/posts', 'PostController');
+Route::get('/vue-posts', 'HomeController@listPostsApi')->name('list-posts-api');
 
 Auth::routes();// routes that control all my authentication mechanism
 
@@ -31,4 +36,9 @@ Route::middleware('auth')->namespace('Admin')->prefix('admin')->name('admin.')
     Route::resource('/posts', 'PostController');
     Route::resource('/categories', 'CategoryController');
     Route::resource('/tags', 'TagController');
+
+    // rotte pagina profilo
+    Route::get('profile', 'HomeController@profile')->name('profile');   
+    Route::post('generate_token', 'HomeController@generateToken')->name('generate_token');   
+
 });

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -25,6 +27,19 @@ class HomeController extends Controller
     public function index()
     {
         return view('admin.index');
+    }
+
+    public function profile(){
+        // echo 'vista profilo';
+        return view('admin.profile');
+    }
+    public function generateToken(){
+       $api_token = Str::random(80);
+    //    una volta generata la assegnamo all'utente corrente 
+        $user = Auth::user();
+        $user->api_token = $api_token;
+        $user->save();
+
     }
     // /**
     //  * Show the form for creating a new resource.

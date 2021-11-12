@@ -10962,7 +10962,3 @@ a.text-dark:focus {
   }
 }
 
-.height {
-  height: calc(100vh - 39px) !important;
-}
-
