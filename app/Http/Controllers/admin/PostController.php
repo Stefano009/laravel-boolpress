@@ -8,7 +8,7 @@ use App\Post;
 use App\Category;
 use App\Tag;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -49,10 +49,15 @@ class PostController extends Controller
             'title'=>'required|unique:posts|max:50',
             'content'=>'required|min:20',
             'category'=>'nullable|exists:categories,id',
-            'tags'=>'exists:tags,id'
+            'tags'=>'exists:tags,id',
             //exists in the tags table column id
+            'image' =>'nullable|image'
         ]);
         $new_post = new Post();
+        if(array_key_exists('image', $data)){
+            $cover_path = Storage::put('post_covers', $data['image']);
+            $data['cover'] = $cover_path;
+        }
         $new_post->fill($data);
         $new_post->slug = Str::slug($data['title']);
         // slug method working, add a control because it need to be unique
@@ -113,7 +118,8 @@ class PostController extends Controller
             'title'=>'required|max:50',
             'content'=>'required|min:20',
             'category_id'=> 'nullable|exists:categories,id',
-            'tags'=> 'exists:tags,id'
+            'tags'=> 'exists:tags,id',
+            'image' => 'nullable|image'
         ]);
 
         if ($form_data['title'] != $post->title){
@@ -133,6 +139,11 @@ class PostController extends Controller
 
             $form_data->slug = $slug;
 
+        }
+        if(array_key_exists('image', $form_data)){
+            Storage::delete($post->cover);//prima di immettere una nuova immagine dobbiamo cancellare la precedente
+            $cover_path = Storage::put('post_covers', $form_data->image);
+            $form_data['cover'] = $cover_path;
         }
         $post->update($form_data);
         // nell'update si usa la funzione sync che si occupa di sincronizzare i tag cancellando e contemporaneamente scrivendo il nuovo data 

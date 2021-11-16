@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <form action="{{route('admin.posts.update', $post['id'])}}" method="post">
+    <form action="{{route('admin.posts.update', $post['id'])}}" method="post" enctype="multipart/form-data">
         @csrf 
         @method('PUT')
 
@@ -19,6 +19,10 @@
             <div class="alert alert-danger"> {{ $message }} </div>
             @enderror
         </div>
+        <input type="file" name='image' id='image' class="@error('image') is-invalid @enderror">
+        @error('image')
+            <div class="alert alert-danger">{{message}}</div>
+        @enderror
         <div class="form-group">
             <label for="category_id">Category</label> 
             <select name="category_id" id="category_id" class=" form-control @error('category_id')is-invalid @enderror">
